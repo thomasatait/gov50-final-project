@@ -1,6 +1,6 @@
 ---
 title: "Gov 50 Final Project"
-author: "Your Name Here"
+author: "Thomas Tait"
 description: "My final project"
 output:
   distill::distill_article:
@@ -11,4 +11,6 @@ output:
 
 ## Project thoughts
 
-I am interested in exploring data related to...
+For this project, I want to analyze how NFL position-specific spending correlates to team success. Because the NFL uses a salary-cap, the best teams tend to spend their money the most effectively. In the modern NFL, teams rely on free agency and trades more than ever to build Super Bowl winning rosters.
+
+The goal of this research will be to analyze the correlation between spending on different position groups and wins. 
