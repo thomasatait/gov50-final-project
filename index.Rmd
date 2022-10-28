@@ -7,10 +7,8 @@ output:
     self_contained: false
 ---
 
-
-
 ## Project thoughts
 
-For this project, I want to analyze how NFL position-specific spending correlates to team success. Because the NFL uses a salary-cap, the best teams tend to spend their money the most effectively. In the modern NFL, teams rely on free agency and trades more than ever to build Super Bowl winning rosters.
+For this project, I want to analyze the what NFL season-long offensive stats are most closely correlated to wins.
 
-The goal of this research will be to analyze the correlation between spending on different position groups and wins. 
+Hypothesis: I think total rushing yards will be the stat that is most greatly correlated with wins. I believe this will the highest correlated statistic because generally when teams are winning a football game, they run the ball to burn the clock. So theoretically, rushing yards and wins should be highly correlated. My explanatory variables are rushing yards, rushing yards per attempt, passing yards, passing yards per attempt, and completion percentage. These are all observed statistics from the 2017-2021 NFL season, gathered by Pro Football Reference. The outcome variable of interest is the number of wins in a season or win percentage. This data is also observed from NFL teams. A pattern of data that shows any of the explanatory variables having a positive correlation is expected and if rushing yards is the most correalted with wins, it will support my hypothesis. To disprove my hypothesis, any of the other variables must have higher correlations with wins. 
