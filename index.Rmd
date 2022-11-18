@@ -27,7 +27,10 @@ rypa_v_wins <- nfl2021 |>
   xlim(3, 5) +
   ylim(0, 1)
 
+
 rypa_v_wins
 ```
+**Note for the person that looks this over. This final analysis will be after each of the statistics have been analyzes **
 
-
+The final analysis of this project will determine which season long stats are the highest correalted with NFL season-long success. 
+The first data visualitzation is between average rushing yards per attempt and win percentage. This shows that there is a positive correlation between rushing yards per attempt and winning, which isn't entirely suprising. However, there is not a strong correlation between these two phenomena, instead there is generally a week correlation, with some strong rushing teams losing a lot of games and some poor rushing teams winning a lot of games. Based off the mapping of the data, it seems more likely that the having roughly 4 yards per carry is the 
