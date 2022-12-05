@@ -1,36 +1,22 @@
 ---
-title: "Gov 50 Final Project"
+title: "Analysis of NFL Offensive Efficiency Stats and Winning Percentage"
 author: "Thomas Tait"
-description: "My final project"
+description: "This is my final project for my Fall 2022 GOV 50 class. This analyzes the correlation between various statistics that indicate offensive effiency and the percentage of NFL teams from the 2017 season to the 2021 season."
 output:
   distill::distill_article:
     self_contained: false
 ---
 ```{r, echo = FALSE} 
 library(tidyverse)
-nfl2021 <- read.csv("NFL Data Set - Sheet1-2.csv")
+library(ggplot2)
+library(infer)
+library(broom)
+nfloffstats <- read.csv("FinalNFLDataSet - Sheet1.csv")
 ```
-## Project thoughts
+# Introduction
 
-For this project, I want to analyze the what NFL season-long offensive stats are most closely correlated to wins.
+# Description of Data Used
 
-Hypothesis: I think total rushing yards will be the stat that is most greatly correlated with wins. I believe this will the highest correlated statistic because generally when teams are winning a football game, they run the ball to burn the clock. So theoretically, rushing yards and wins should be highly correlated. My explanatory variables are rushing yards, rushing yards per attempt, passing yards, passing yards per attempt, and completion percentage. These are all observed statistics from the 2017-2021 NFL season, gathered by Pro Football Reference. The outcome variable of interest is the number of wins in a season or win percentage. This data is also observed from NFL teams. A pattern of data that shows any of the explanatory variables having a positive correlation is expected and if rushing yards is the most correlated with wins, it will support my hypothesis. To disprove my hypothesis, any of the other variables must have higher correlations with wins. 
+# Results and Analysis
 
-```{r}
-rypa_v_wins <- nfl2021 |>
-  ggplot(mapping = aes(x = Rush_Yards_Per_Attempts, y = Win.Percentage)) +
-  geom_point() +
-  geom_smooth(method = "lm", se = FALSE, size = 1.5) +
-  labs(x = "Rushing Yards Per Attempt (in yards)",
-       y = "Win Percentage",
-       title = "Rushing Yards Per Attempt vs Wins") +
-  xlim(3, 5) +
-  ylim(0, 1)
-
-
-rypa_v_wins
-```
-**Note for the person that looks this over. This final analysis will be after each of the statistics have been analyzes **
-
-The final analysis of this project will determine which season long stats are the highest correalted with NFL season-long success. 
-The first data visualitzation is between average rushing yards per attempt and win percentage. This shows that there is a positive correlation between rushing yards per attempt and winning, which isn't entirely suprising. However, there is not a strong correlation between these two phenomena, instead there is generally a week correlation, with some strong rushing teams losing a lot of games and some poor rushing teams winning a lot of games. Based off the mapping of the data, it seems more likely that the having roughly 4 yards per carry is the 
+# Conclusion
