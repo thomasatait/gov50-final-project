@@ -1,7 +1,7 @@
 ---
 title: "Analysis of NFL Offensive Efficiency Stats and Winning Percentage"
 author: "Thomas Tait"
-description: "This is my final project for my Fall 2022 GOV 50 class. This analyzes the correlation between various statistics that indicate offensive effiency and the percentage of NFL teams from the 2017 season to the 2021 season."
+description: "This is my final project for my Fall 2022 GOV 50 class. This analyzes the correlation between various statistics that indicate offensive effiency and the percentage of NFL teams from the 2017 season to the 2021 season. The orginal data for this project was sourced from [Pro Football Reference](pro-football-reference.com) and edited in Google Sheets to edit out unnecessary data and synthesize multiple years of data."
 output:
   distill::distill_article:
     self_contained: false
