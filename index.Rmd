@@ -14,8 +14,27 @@ library(broom)
 nfloffstats <- read.csv("FinalNFLDataSet - Sheet1.csv")
 ```
 # Introduction
+  For this project, I chose to analyze the correlation between notable offensive efficiency statistics in the National Football League and how closely they each correlate with a higher winning percentage. The offensive efficiency statistics I chose were pass completion percentage, net yards per pass attempt, and rushing yards per attempt. Determining which of these metrics are the most closely correlated with winning percentage has multiple purposes in an analytical context for both sports journalists and team executives. For journalists, it would help to make predictions as seasons go on. As journalists attempt to formulate week-by-week predictions, knowing which of the teams may be more efficient by certain metrics would help to make more accurate game picks. For team executives, knowing that a certain type of efficiency is more greatly correlated with winning percentage would allow them to focus on certain areas of their team. For example, if net yards per pass attempt is the most correlated with wins, a team might focus on faster downfield receivers and pass blocking offensive lineman as opposed to investing heavily in blocking tight ends and run blocking offensive lineman. 
+  As a football fan, I find this particularly interesting for a variety of reasons. Generally, predicting wins in the NFL is a combination of luck and information, with more advanced metrics being used to accurately predict the outcome of games. To me, this project will help to provide another level of information that can be used for pre-game analysis and long-term team building that will increase my enjoyment of my weekly football viewing. 
+  My hypothesis is that net yards per pass attempt will be the most correlated with wins. My logic is that teams with more explosive plays, which primarily take the form of long passing plays, will usually score more points and more consistently. Additionally, some of the most successful regular season teams of the last five years (2017 - 2021), like the Los Angeles Rams, Kansas City Chiefs, and Dallas Cowboys were built to be explosive, with good pass blocking offensive lines and fast wide receivers. 
 
 # Description of Data Used
+  This study is of cross-sectional design. The data used in this experiment comes from [Pro Football Reference](https://www.pro-football-reference.com). I used the "offensive data" tab on the website to synthesize each teams offensive statistics from the 2017-2018 to 2021-2022 NFL seasons. All of these independent are simple mathematical calculations and are gathered through simple observation of each NFL game. The only data metric used that I calculated myself was pass completion percentage, which I used by dividing total pass completions by attempts. None of these points are vulnerable to any bias or human influence, as they are all based in simple, observable truth. The dependent variable, winning percentage, is simply the number of wins over the number of total games. For ties, the math is slightly more complicated, but all winning percentages were pulled directly from Pro Football Reference. 
+```{r, echo = FALSE}
+win_percent_graph <- nfloffstats |>
+  ggplot(mapping = aes(x = win_percent)) +
+  geom_boxplot()
+win_percent_summary <- nfloffstats |>
+  summarize(mean_win_percent = mean(win_percent),
+            sd_win_percent = sd(win_percent),
+            mean_wins = mean(wins),
+            sd_wins = sd(wins))
+
+win_percent_graph
+knitr::kable(win_percent_summary, digits = 2, 
+             col.names = c("Mean Winning Percentage", "SD of Winning Percentage", "Mean Wins", "SD of Wins"))
+```
+
 
 # Results and Analysis
 
