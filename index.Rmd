@@ -1,7 +1,7 @@
 ---
 title: "Analysis of NFL Offensive Efficiency Stats and Winning Percentage"
 author: "Thomas Tait"
-description: "This is my final project for my Fall 2022 GOV 50 class. This analyzes the correlation between various statistics that indicate offensive effiency and the percentage of NFL teams from the 2017 season to the 2021 season. The orginal data for this project was sourced from [Pro Football Reference](https://www.pro-football-reference.com) and edited in Google Sheets to edit out unnecessary data and synthesize multiple years of data."
+description: "This is my final project for my Fall 2022 GOV 50 class. This analyzes the correlation between various statistics that indicate offensive effiency and the winning percentage of NFL teams from the 2017 season to the 2021 season. The orginal data for this project was sourced from [Pro Football Reference](https://www.pro-football-reference.com) and edited in Google Sheets to edit out unnecessary data and synthesize multiple years of data."
 output:
   distill::distill_article:
     self_contained: false
@@ -11,17 +11,26 @@ library(tidyverse)
 library(ggplot2)
 library(infer)
 library(broom)
-nfloffstats <- read.csv("FinalNFLDataSet - Sheet1.csv")
+nfloffstats <- read.csv("FinalNFLDataSetREAL.csv")
 ```
 # Introduction
-For this project, I chose to analyze the correlation between notable offensive efficiency statistics in the National Football League and how closely they each correlate with a higher winning percentage. The offensive efficiency statistics I chose were pass completion percentage, net yards per pass attempt, and rushing yards per attempt. Determining which of these metrics are the most closely correlated with winning percentage has multiple purposes in an analytical context for both sports journalists and team executives. For journalists, it would help to make predictions as seasons go on. As journalists attempt to formulate week-by-week predictions, knowing which of the teams may be more efficient by certain metrics would help to make more accurate game picks. For team executives, knowing that a certain type of efficiency is more greatly correlated with winning percentage would allow them to focus on certain areas of their team. For example, if net yards per pass attempt is the most correlated with wins, a team might focus on faster downfield receivers and pass blocking offensive lineman as opposed to investing heavily in blocking tight ends and run blocking offensive lineman. 
+For this project, I chose to analyze the correlation between notable offensive efficiency statistics in the National Football League and how closely they each correlate with a higher winning percentage. The offensive efficiency statistics I chose were pass completion percentage, net yards per pass attempt, rushing yards per attempt, and the percentage of drives that end in scoring plays. Determining which of these metrics are the most closely correlated with winning percentage has multiple purposes in an analytical context for both sports journalists and team executives. For journalists, it would help to make predictions as seasons go on. As journalists attempt to formulate week-by-week predictions, knowing which of the teams may be more efficient by certain metrics would help to make more accurate game picks. For team executives, knowing that a certain type of efficiency is more greatly correlated with winning percentage would allow them to focus on certain areas of their team. For example, if net yards per pass attempt is the most correlated with wins, a team might focus on faster downfield receivers and pass blocking offensive lineman as opposed to investing heavily in blocking tight ends and run blocking offensive lineman. 
 
 As a football fan, I find this particularly interesting for a variety of reasons. Generally, predicting wins in the NFL is a combination of luck and information, with more advanced metrics being used to accurately predict the outcome of games. To me, this project will help to provide another level of information that can be used for pre-game analysis and long-term team building that will increase my enjoyment of my weekly football viewing. 
 
 My hypothesis is that net yards per pass attempt will be the most correlated with wins. My logic is that teams with more explosive plays, which primarily take the form of long passing plays, will usually score more points and more consistently. Additionally, some of the most successful regular season teams of the last five years (2017 - 2021), like the Los Angeles Rams, Kansas City Chiefs, and Dallas Cowboys were built to be explosive, with good pass blocking offensive lines and fast wide receivers. 
 
 # Description of Data Used
-This study is of cross-sectional design. The data used in this experiment comes from [Pro Football Reference](https://www.pro-football-reference.com). I used the "offensive data" tab on the website to synthesize each teams offensive statistics from the 2017-2018 to 2021-2022 NFL seasons. All of these independent are simple mathematical calculations and are gathered through simple observation of each NFL game. The only data metric used that I calculated myself was pass completion percentage, which I used by dividing total pass completions by attempts. None of these points are vulnerable to any bias or human influence, as they are all based in simple, observable truth. The dependent variable, winning percentage, is simply the number of wins over the number of total games. For ties, the math is slightly more complicated, but all winning percentages were pulled directly from Pro Football Reference. 
+This study is of cross-sectional design. The data used in this experiment comes from [Pro Football Reference](https://www.pro-football-reference.com). I used the "offensive data" tab on the website to synthesize each teams offensive statistics from the 2017-2018 to 2021-2022 NFL seasons. All of these independent are simple mathematical calculations and are gathered through simple observation of each NFL game. The only data metric used that I calculated myself was pass completion percentage, which I used by dividing total pass completions by attempts. None of these points are vulnerable to any bias or human influence, as they are all based in simple, observable truth. Pass completion percentage has been rounded to five digits. The dependent variable, winning percentage, is simply the number of wins over the number of total games. For ties, the math is slightly more complicated, but all winning percentages were pulled directly from Pro Football Reference. Below is a brief description of what each data pointmeans in greater detail. 
+
+Pass completion percentage is the number of pass attempts that result in a completion vs the total number of incompletions. A higher completion percentage means more passes are completed. Most teams want a greater than 60% completion percentage across a season.
+
+Net yards per pass attempt is the number of yards gained minus the number of yards lost to sacks, divided by the number of attempts and plays that resulted in sacks. This stat is meant to show how well a team can pass for large amounts of yards while not giving up large amount of sack yardage.
+
+Rushing yards per attempt is simply the amount of yards rushed for in total divided by the number of attempts. More rushing yards per attempt is better and generally anything above five yards per carry is considered good.
+
+Scoring percentage refers to the number of drives that end in scoring plays, either touchdowns or field goals. 
+
 
 ```{r, echo = FALSE}
 win_percent_graph <- nfloffstats |>
@@ -29,7 +38,10 @@ win_percent_graph <- nfloffstats |>
   geom_vline(mapping = aes(xintercept = mean(win_percent))) +
   geom_histogram(binwidth = 0.1, fill = "black", color = "white") +
   xlim(0, 1) +
-  labs(x = "Winning Percentage")
+  ylim(0,40) +
+  labs(x = "Winning Percentage",
+       y = "Count",
+       title = "Frequency of Winning Percentages in the NFL from 2017 to 2021")
 win_percent_summary <- nfloffstats |>
   summarize(mean_win_percent = mean(win_percent),
             sd_win_percent = sd(win_percent),
@@ -44,5 +56,74 @@ knitr::kable(win_percent_summary, digits = 2,
 The graph depicts the winning percentage of all NFL teams from 2017 to 2021. The bin widths are equal to 0.1, and from that we can see that the graphs are roughly centered around 0.5, which would be expected. A winning percentage for a team that won half and lost half of their games was 0.5 until 2021, when the NFL began playing a 17 game season instead of the previously standard 16. The dependent variable is roughly normally distributed around this 0.5 mark, with the mean falling almost exactly at 0.5, depicted by the vertical line in the graph. The table depicts the mean and standard of deviation of winning percentage and mean and standard deviation of wins in the 2017 - 2021 period. 
 
 # Results and Analysis
+```{r, echo = FALSE}
+pass_percent_graph <- nfloffstats |>
+  ggplot(mapping = aes(x = pass_percent, y = win_percent, col = conference)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE, color = "black") +
+  labs(x = "Pass Completion Percentage",
+       y = "Winning Percentage",
+       title = "Pass Completion Percentage vs Winning Percentage with Regression Line")
+pass_percent_graph
+
+net_pass_yards_attempt_graph <- nfloffstats |>
+  ggplot(mapping = aes(x = net_pass_yards_attempt, y = win_percent, col = conference)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE, color = "black") +
+  labs(x = "Net Yards Per Pass Attempt",
+       y = "Winning Percentage",
+       title = "Net Yards Per Pass Attempt vs Winning Percentage with Regression Line")
+net_pass_yards_attempt_graph
+
+rush_yards_attempt_graph <- nfloffstats |>
+  ggplot(mapping = aes(x = rush_yards_attempt, y = win_percent, col = conference)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE, color = "black") +
+  labs(x = "Rush Yards Per Attempt",
+       y = "Winning Percentage",
+       title = "Rush Yards Per Attempt vs Winning Percentage with Regression Line")
+rush_yards_attempt_graph
+
+scoring_percent_graph <- nfloffstats |>
+  ggplot(mapping = aes(x = scoring_percent, y = win_percent, col = conference)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE, color = "black") +
+  labs(x = "Percent of Drives That End in a Score",
+       y = "Winning Percentage",
+       title = "Percent of Drives That End in a Score vs Winning Percentage with Regression Line")
+scoring_percent_graph
+```
+
+These graphs are all scatterplots of the respective independent variables graphed on the x-axis with winning percentage graphed on the y-axis. Each black line represents the regression line within each of these relationships. The regression coefficients are represented in the below table. 
+
+```{r, echo = FALSE}
+offeff_regression_coeff <- lm(win_percent ~ pass_percent + net_pass_yards_attempt + 
+                                rush_yards_attempt + scoring_percent,
+                              data = nfloffstats) 
+offeff_regression_coeff
+```
+
+These regressions are interpreted in the following ways. 
+
+The "pass_percent" coefficient is meant to illustrate the predicted change in win percentage for each unit change in pass completion percentage assuming all other variables are held constant. 
+
+The "net_pass_yards_attempt" coefficient is meant to illustrate the predicted change in win percentage for each unit change in net yards per passing attempt assuming all other variables are held constant. 
+
+The "rush_yards_attempt" coefficient is meant to illustrate the predicted change in win percentage for each unit change in rushing yards per attempt assuming all other variables are held constant. 
+
+The "scoring_percent" coefficient is meant to illustrate the predicted change in win percentage for each unit change in drives ending scores assuming all other variables are held constant. 
+
+From the coefficient above, we can determine that the greatest relationship in a constant environment with winning percentage is pass completion percentage, with a regression coefficient of 0.39. All other variables have relatively low regression coefficients, with rushing yards per attempt even having a negative correlation with winning percentage. 
+
+This relationship is fairly significant, showing that there is some high correlation between one of these independent variables and winning percentage. However, as will be further discussed in the results section, there are some limitations to just directly applying this variable to team building in the NFL. 
+
+I do believe that there exists a casual relationship between pass completion percentage and winning percentage. Generally, teams with higher pass completion percentages are able to put together longer and more complete drives, which should be correlated with scoring more points, and thus winning games. Pass completion percentage has some other limitations, including turnovers and defensive mistakes, but I believe there to a strong causal relationship between pass completion percentage and winning percentage. 
 
 # Conclusion
+This multiple regression found that pass completion percentage has the highest correlation with winning percentage when compared to net yards per pass attempt, rushing yards per attempt, and the percent of drives ending in scoring plays. This correlation coefficient was 0.39, and I believe that there exists a causal relationship between these two variables. However, while I believe there is great interest in this correlation, I believe that it could have limited impact on team building, and is rather better applied to game planning and prediction of seasons from journalists.  
+
+This finding goes against my previous hypothesis that predicted that net yards per pass attempt would be the most correlated with winning percentage was not correct. The logic was not entirely off base, but ignored the idea among NFL coaches that dropped passes and incomplete passes tend to represent missed opportunities, and that this would make teams more likely to prioritize short completions rather than long passing attempts that end in incompletions. 
+
+The greatest limit to the analysis and inference of this coefficient is the extreme amount of confounding variables. This study only analyzes the offensive efficiency metrics, and ignores the value of defense in winning. A separate study into defensive efficiency metrics would be needed and both parts should be considered to make any long term valuable analysis. However, this does have good applications for prediction. In the current NFL, the Philadelphia Eagles and Cincinnati Bengals have the 3rd and 4th ranked pass completion metrics, and thus could be expected continued to win this season. Additionally, the Seattle Seahawks are ranked #1 in pass completion percentage, which could be used to explain how they have out performed expectations this season. Further, the New England Patriots, who rank second in pass completion percentage, have won more games than would be reasonably expected given the talent on the roster, and a high pass completion percentage could be part of the reason why. 
+
+The best way to improve this analysis would be to analyze these offensive efficiency statistics against turnovers and defensive efficiency metrics. Doing so would allow both the analysis and inference that would be conducted using this study to be better applied. 
